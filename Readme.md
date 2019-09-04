@@ -1,5 +1,4 @@
-MRSS (Medical Record Sharing Service)
- - Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발
+MRSS (Medical Record Sharing Service) - Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발
 
 1. 팀 구성원 : 명진우, 안종민, 이규환, 이상아, 전성원
 

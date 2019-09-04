@@ -1,5 +1,5 @@
 Hyperledger Fabric을 이용한 상품 거래 시스템 개발
-개발환경은 우분투 16.04 기반으로 테스트하여 작성하였습니다.
+개발환경은 우분투 16.04 기반으로 테스트하여 작성하였습니다. 
 
 도메인 정보
 
@@ -29,9 +29,12 @@ Store1
 ca.store1.mymarket.com
 Store2
 ca.store2.mymarket.com
-mymarket_architecture
+
+https://github.com/mjkong/mymarket/blob/master/images/mymarket1.png?raw=true
 
 아래 그림은 mymarket 실행을 위한 컨테이너 리스트 입니다. mymarket_containers
+
+https://github.com/mjkong/mymarket/blob/master/images/mymarket2.png?raw=true
 
 사전 개발 환경 준비
 Docker

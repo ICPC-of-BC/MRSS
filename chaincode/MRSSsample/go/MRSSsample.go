@@ -49,6 +49,13 @@ type Person struct {
 	Sex string `json:"sex"`
 }
 
+type Medical struct {
+	Operation string `json:"operation"`
+	Op_Medication string `json:"op_medication"`
+	Diagnosis string `json:"diagnosis"`
+	Diag_Medication string `json:"diag_medication"`
+}
+
 /*
  * The Init method is called when the Smart Contract "fabPerson" is instantiated by the blockchain network
  * Best practice is to have any Ledger initialization in separate function -- see initLedger()
@@ -74,6 +81,13 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.createPerson(APIstub, args)
 	} else if function == "queryAllPersons" {
 		return s.queryAllPersons(APIstub)
+
+	} else if function == "queryMedical" {
+                return s.queryPerson(APIstub, args)
+	} else if function == "initLedgerMedical" {
+                return s.initLedger(APIstub)
+	} else if function == "createMedical" {
+                return s.createPerson(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -85,10 +99,21 @@ func (s *SmartContract) queryPerson(APIstub shim.ChaincodeStubInterface, args []
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
-	PersonAsBytes, _ := APIstub.GetState(args[2])
+	PersonAsBytes, _ := APIstub.GetState(args[0])
 	return shim.Success(PersonAsBytes)
 }
+/*
+func (s *SmartContract) queryMedical(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
+        if len(args) != 1 {
+                return shim.Error("Incorrect number of arguments. Expecting 1")
+        }
+
+        PersonAsBytes, _ := APIstub.GetState(args[0])
+        return shim.Success(PersonAsBytes)
+}
+
+*/
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	Persons := []Person{
 		Person{Name: "Toyota", Number: "111111-1111111", Sex: "blue"},
@@ -114,7 +139,27 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 
 	return shim.Success(nil)
 }
+/*
+func (s *SmartContract) initLedgerMedical(APIstub shim.ChaincodeStubInterface) sc.Response {
+        Medicals := []Medical{
+                Medical{Operation: "Cancer surgery", Op_Medication: "morphine", Diagnosis: "cold", Diag_Medication: "Brufen"},
+                Medical{Operation: "Cancer surgery", Op_Medication: "morphine", Diagnosis: "cold", Diag_Medication: "Brufen"},
+                Medical{Operation: "Cancer surgery", Op_Medication: "morphine", Diagnosis: "cold", Diag_Medication: "Brufen"},
+                Medical{Operation: "Cancer surgery", Op_Medication: "morphine", Diagnosis: "cold", Diag_Medication: "Brufen"},
+        }
 
+        i := 0
+        for i < len(Medicals) {
+                fmt.Println("i is ", i)
+                PersonAsBytes, _ := json.Marshal(Medicals[i])
+                APIstub.PutState("Person"+strconv.Itoa(i), PersonAsBytes)
+                fmt.Println("Added", Medicals[i])
+                i = i + 1
+        }
+
+        return shim.Success(nil)
+}
+*/
 func (s *SmartContract) createPerson(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 4 {
@@ -128,6 +173,23 @@ func (s *SmartContract) createPerson(APIstub shim.ChaincodeStubInterface, args [
 
 	return shim.Success(nil)
 }
+
+/*
+func (s *SmartContract) createMedical(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+        if len(args) != 4 {
+                return shim.Error("Incorrect number of arguments. Expecting 5")
+        }
+
+        //var Person = Person{Name: args[1], Number: args[2], Sex: args[3]}
+        var Medical = Medical{Operation: args[1], Op_Medication: args[2], Diagnosis: args[3], Diag_Medication: args[4]}
+        MedicalAsBytes, _ := json.Marshal(Medical)
+        APIstub.PutState(args[0], MedicalAsBytes)
+
+        return shim.Success(nil)
+}
+*/
+
 
 func (s *SmartContract) queryAllPersons(APIstub shim.ChaincodeStubInterface) sc.Response {
 

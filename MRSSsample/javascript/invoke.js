@@ -42,7 +42,7 @@ async function main() {
         // Submit the specified transaction.
         // createPerson transaction - requires 5 argument, ex: ('createPerson', 'Person12', 'Honda', 'Accord', 'Black', 'Tom')
         // changePersonOwner transaction - requires 2 args , ex: ('changePersonOwner', 'Person10', 'Dave')
-        await contract.submitTransaction('createPerson', 'Person43','SANGA', '961025-2000000', 'Woman');
+        await contract.submitTransaction('createPerson', 'Person44','JONGMIN', '9411111-1000000', 'Men');
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.

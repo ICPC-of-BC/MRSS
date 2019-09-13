@@ -38,7 +38,8 @@ async function main() {
         // Evaluate the specified transaction.
         // queryPerson transaction - requires 1 argument, ex: ('queryPerson', 'Person4')
         // queryAllPersons transaction - requires no arguments, ex: ('queryAllPersons')
-        const result = await contract.evaluateTransaction('queryPerson', 'Person43');
+       // const result = await contract.evaluateTransaction('queryPerson', 'Person44');
+	const result = await contract.evaluateTransaction('queryAllPersons')
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
     } catch (error) {

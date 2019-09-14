@@ -95,9 +95,10 @@ func (s *SmartContract) queryPerson(APIstub shim.ChaincodeStubInterface, args []
 	}
 
 	personAsBytes, _ := APIstub.GetState(args[0])
-//	medicalAsBytes, _ := APIstub.GetState( args[0] )
+	medicalAsBytes, _ := APIstub.GetState( args[0] )
 //	fmt.Printf( "%s\n%s\n", personAsBytes, medicalAsBytes )
 	fmt.Printf( "%s\n", personAsBytes )
+	fmt.Printf( "%s\n", medicalAsBytes )
 
 	return shim.Success( personAsBytes )
 }
@@ -109,22 +110,28 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 		Person{Name: "Hyundai", Number: "Tucson", Sex: "green"},
 	}
 
-//	medicals := []Medical {
-//		Medical{ DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
-//		Medical{ DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
-//		Medical{ DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
-//	}
-
 	i := 0
 	for i < len(persons) {
 		fmt.Println("i is ", i)
 		personAsBytes, _ := json.Marshal(persons[i])
-//		medicalAsBytes, _ := json.Marshal( medicals[i] )
 		APIstub.PutState("PERSON"+strconv.Itoa(i), personAsBytes)
-//		APIstub.PutState( "PERSON"+strconv.Itoa( i ), medicalAsBytes )
 		fmt.Println("Added", persons[i])
-//		fmt.Println( "Added", medicals[i] )
 		i = i + 1
+	}
+
+	medicals := []Medical {
+                Medical{ DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
+                Medical{ DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
+                Medical{ DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
+        }
+
+	j := 0
+	for i < len( medicals ) {
+		fmt.Println( "i is ", j )
+		medicalAsBytes, _ := json.Marshal( medicals[j] )
+		APIstub.PutState( "PERSON"+strconv.Itoa(j), medicalAsBytes )
+		fmt.Println( "Added", medicals[j] )
+		j = j+1
 	}
 
 	return shim.Success(nil)

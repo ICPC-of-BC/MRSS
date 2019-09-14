@@ -49,6 +49,11 @@ type Person struct {
 	Sex string `json:"sex"`
 }
 
+type Medical struct {
+	DorO string `json:"doro"`
+	PM string `json:"pm"`
+}
+
 /*
  * The Init method is called when the Smart Contract "MRSSsample" is instantiated by the blockchain network
  * Best practice is to have any Ledger initialization in separate function -- see initLedger()
@@ -76,6 +81,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryAllPersons(APIstub)
 //	} else if function == "changePersonOwner" {
 //		return s.changePersonOwner(APIstub, args)
+	} else if function == "createMedical" {
+		return s.createMedical(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -88,7 +95,11 @@ func (s *SmartContract) queryPerson(APIstub shim.ChaincodeStubInterface, args []
 	}
 
 	personAsBytes, _ := APIstub.GetState(args[0])
-	return shim.Success(personAsBytes)
+//	medicalAsBytes, _ := APIstub.GetState( args[0] )
+//	fmt.Printf( "%s\n%s\n", personAsBytes, medicalAsBytes )
+	fmt.Printf( "%s\n", personAsBytes )
+
+	return shim.Success( personAsBytes )
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -98,12 +109,21 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 		Person{Name: "Hyundai", Number: "Tucson", Sex: "green"},
 	}
 
+//	medicals := []Medical {
+//		Medical{ DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
+//		Medical{ DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
+//		Medical{ DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
+//	}
+
 	i := 0
 	for i < len(persons) {
 		fmt.Println("i is ", i)
 		personAsBytes, _ := json.Marshal(persons[i])
+//		medicalAsBytes, _ := json.Marshal( medicals[i] )
 		APIstub.PutState("PERSON"+strconv.Itoa(i), personAsBytes)
+//		APIstub.PutState( "PERSON"+strconv.Itoa( i ), medicalAsBytes )
 		fmt.Println("Added", persons[i])
+//		fmt.Println( "Added", medicals[i] )
 		i = i + 1
 	}
 
@@ -117,9 +137,12 @@ func (s *SmartContract) createPerson(APIstub shim.ChaincodeStubInterface, args [
 	}
 
 	var person = Person{Name: args[1], Number: args[2], Sex: args[3]}
+//	var medical = Medical{}
 
 	personAsBytes, _ := json.Marshal(person)
 	APIstub.PutState(args[0], personAsBytes)
+//	medicalAsBytes, _ := json.Marshal( medical )
+//	APIstub.PutState( args[0], medicalAsBytes )
 
 	return shim.Success(nil)
 }
@@ -185,6 +208,21 @@ func (s *SmartContract) changePersonOwner(APIstub shim.ChaincodeStubInterface, a
 	return shim.Success(nil)
 }
 */
+
+func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
+
+	if len( args ) != 3 {
+		return shim.Error( "Incorrect number of arguments. Expection 3" )
+	}
+
+	var medical = Medical{ DorO: args[1], PM: args[2] }
+	medicalAsBytes, _ := json.Marshal( medical )
+	APIstub.PutState(args[0], medicalAsBytes)
+
+	return shim.Success( nil )
+}
+
+
 // The main function is only relevant in unit test mode. Only included here for completeness.
 func main() {
 

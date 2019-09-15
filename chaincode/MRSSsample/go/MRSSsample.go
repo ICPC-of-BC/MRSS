@@ -47,12 +47,14 @@ type Person struct {
 	Name   string `json:"name"`
 	Number  string `json:"number"`
 	Sex string `json:"sex"`
-}
-
-type Medical struct {
 	DorO string `json:"doro"`
 	PM string `json:"pm"`
 }
+
+//type Medical struct {
+//	DorO string `json:"doro"`
+//	PM string `json:"pm"`
+//}
 
 /*
  * The Init method is called when the Smart Contract "MRSSsample" is instantiated by the blockchain network
@@ -95,44 +97,41 @@ func (s *SmartContract) queryPerson(APIstub shim.ChaincodeStubInterface, args []
 	}
 
 	personAsBytes, _ := APIstub.GetState(args[0])
-	medicalAsBytes, _ := APIstub.GetState( args[0] )
-//	fmt.Printf( "%s\n%s\n", personAsBytes, medicalAsBytes )
-	fmt.Printf( "%s\n", personAsBytes )
-	fmt.Printf( "%s\n", medicalAsBytes )
+//	fmt.Println( string( personAsBytes ) )
 
 	return shim.Success( personAsBytes )
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	persons := []Person{
-		Person{Name: "Toyota", Number: "Prius", Sex: "blue"},
-		Person{Name: "Ford", Number: "Mustang", Sex: "red"},
-		Person{Name: "Hyundai", Number: "Tucson", Sex: "green"},
+		Person{Name: "LeeSA", Number: "961025", Sex: "F", DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
+		Person{Name: "MyungJW", Number: "940000", Sex: "M", DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
+		Person{Name: "LeeGH", Number: "950000", Sex: "M", DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
 	}
 
 	i := 0
 	for i < len(persons) {
 		fmt.Println("i is ", i)
-		personAsBytes, _ := json.Marshal(persons[i])
-		APIstub.PutState("PERSON"+strconv.Itoa(i), personAsBytes)
-		fmt.Println("Added", persons[i])
+		personAsBytes, _ := json.Marshal( persons[i] )
+		APIstub.PutState("PERSON"+strconv.Itoa(i), personAsBytes )
+		fmt.Println( "Added", persons[i] )
 		i = i + 1
 	}
 
-	medicals := []Medical {
-                Medical{ DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
-                Medical{ DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
-                Medical{ DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
-        }
+//	medicals := []Medical {
+//                Medical{ DorO: "D", PM: "Advil, Anacin, Bayer, Bufferin"},
+//                Medical{ DorO: "D", PM: "Halls, Robitussin, Sucrets, Vicks"},
+//                Medical{ DorO: "O", PM: "GasX, Maalox, Rolaid, Tums"},
+//        }
 
-	j := 0
-	for i < len( medicals ) {
-		fmt.Println( "i is ", j )
-		medicalAsBytes, _ := json.Marshal( medicals[j] )
-		APIstub.PutState( "PERSON"+strconv.Itoa(j), medicalAsBytes )
-		fmt.Println( "Added", medicals[j] )
-		j = j+1
-	}
+//	j := 0
+//	for i < len( medicals ) {
+//		fmt.Println( "i is ", j )
+//		medicalAsBytes, _ := json.Marshal( medicals[j] )
+//		APIstub.PutState( "PERSON"+strconv.Itoa(j), medicalAsBytes )
+//		fmt.Println( "Added", medicals[j] )
+//		j = j+1
+//	}
 
 	return shim.Success(nil)
 }
@@ -144,12 +143,9 @@ func (s *SmartContract) createPerson(APIstub shim.ChaincodeStubInterface, args [
 	}
 
 	var person = Person{Name: args[1], Number: args[2], Sex: args[3]}
-//	var medical = Medical{}
 
-	personAsBytes, _ := json.Marshal(person)
+	personAsBytes, _ := json.Marshal( person )
 	APIstub.PutState(args[0], personAsBytes)
-//	medicalAsBytes, _ := json.Marshal( medical )
-//	APIstub.PutState( args[0], medicalAsBytes )
 
 	return shim.Success(nil)
 }
@@ -209,7 +205,7 @@ func (s *SmartContract) changePersonOwner(APIstub shim.ChaincodeStubInterface, a
 	json.Unmarshal(personAsBytes, &person)
 	person.Owner = args[1]
 
-	personAsBytes, _ = json.Marshal(person)
+	personAsBytes, _ = json.Marshal( person )
 	APIstub.PutState(args[0], personAsBytes)
 
 	return shim.Success(nil)
@@ -222,9 +218,19 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
 		return shim.Error( "Incorrect number of arguments. Expection 3" )
 	}
 
-	var medical = Medical{ DorO: args[1], PM: args[2] }
-	medicalAsBytes, _ := json.Marshal( medical )
-	APIstub.PutState(args[0], medicalAsBytes)
+	personAsBytes, err:= APIstub.GetState( args[0] )
+	if err == nil {
+		return shim.Error(err.Error())
+	}
+
+	person := Person{}
+
+	json.Unmarshal( personAsBytes, &person )
+	person.DorO = args[1]
+	person.PM = args[2]
+
+	personAsBytes, _ = json.Marshal( person )
+	APIstub.PutState( args[0], personAsBytes )
 
 	return shim.Success( nil )
 }

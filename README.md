@@ -25,8 +25,6 @@
 
 ## Let's follow this test
 
-* * *
-
  **>>> 2019.09.06 Start Project: Announce Prologue**  
  **~2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
  **2019.09.12 Implemented function to Input or Output medical data**  
@@ -37,7 +35,6 @@ cd ~/fabric-samples/chaincode/
 cp -r fabcar MRSSsample
 mv fabcar/go/fabcar.go MRSSsample/go/MRSSsample.go
 ```
-
 
 * **modify MRSSsample.go**
 ```bash
@@ -98,7 +95,6 @@ nano startFabric.sh
 ```
 'fabcar' → 'MRSSsample'<br>
 
-
 * **change query.js → queryPerson.js**
 ```bash
 nano javascript/queryPerson.js
@@ -106,7 +102,6 @@ nano javascript/queryPerson.js
 line 41: const result = await contract.evaluateTransaction('queryPerson', 'PERSON12');<br>
 fabcar → MRSSsample<br>
 CAR → PERSON<br>
-
 
 * **add queryAllPerson.js**
 ```bash
@@ -124,7 +119,6 @@ await contract.submitTransaction('createPerson', 'PERSON12', 'AhnJM', '940409', 
 fabcar → MRSSsample<br>
 Car → Person<br>
 CAR → PERSON<br>
-
 
 * **add medicalInvoke.js**
 ```bash

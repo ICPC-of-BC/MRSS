@@ -15,30 +15,22 @@
 
 #### Contract
 
-* 환자 정보 등록 및 요청
- * 이름
- * 주민번호
- * 성별
- 
- 
+* 환자 정보 입력
 * 환자 정보 수정 및 삭제
-
-
-* 의료기록 입력
- * 수술기록
- * 진찰기록
- 
+* 의료 기록 입력
+* 선택 환자 정보 출력
+* 전체 환자 정보 출력
 
 ### UI/UX
 ![MRSS구조](https://user-images.githubusercontent.com/49246977/64236333-273c7280-cf35-11e9-9fb8-f4c5cc81d94b.png)
 * * *
 
-## Let's follw this test
+## Let's follow this test
 
 * * *
-
+#### >>> 2019.09.06 Start Project: Announce Prologue
 #### ~2019.09.11 Modifying 'fabcar' to 'MRSSsample'
-
+#### 2019.09.12 Implemented function to Input or Output medical data
 
 ### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
 ```bash
@@ -48,7 +40,7 @@ mv fabcar/go/fabcar.go MRSSsample/go/MRSSsample.go
 ```
 
 
-* modify MRSSsample.go
+* **modify MRSSsample.go**
 ```bash
 nano MRSS/go/MRSSsample.go
 ```
@@ -58,16 +50,15 @@ Make → Name<br>
 Model → Number<br>
 Colour → Sex<br>
 Owner → DorO<br>
-add - PM<br>
 make → name<br>
 model → number<br>
 colour → sex<br>
 owner → doro<br>
-add - pm<br>
 CAR → PERSON<br>
+add - pm<br>
+add - PM<br>
 
-
-* add function & add createMedical
+* **Add function: createMedical**
 ```go
 func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
         tmpAsBytes, _:= APIstub.GetState(args[0])
@@ -102,14 +93,14 @@ cd MRSS
 ```
 
 
-* modify startFabric.sh
+* **modify startFabric.sh**
 ```bash
 nano startFabric.sh
 ```
 'fabcar' → 'MRSSsample'<br>
 
 
-* change query.js → queryPerson.js
+* **change query.js → queryPerson.js**
 ```bash
 nano javascript/queryPerson.js
 ```
@@ -118,7 +109,7 @@ fabcar → MRSSsample<br>
 CAR → PERSON<br>
 
 
-* add queryAllPerson.js
+* **add queryAllPerson.js**
 ```bash
 nano javascript/queryAllPerson.js
 ```
@@ -126,7 +117,7 @@ line 41: const result = await contract.evaluateTransaction('queryAllPersons');<b
 fabcar → MRSSsample<br>
 CAR → PERSON<br>
 
-* change invoke.js → personInvoke.js
+* **change invoke.js → personInvoke.js**
 ```bash
 nano javascript/personInvoke.js
 ```
@@ -136,7 +127,7 @@ Car → Person<br>
 CAR → PERSON<br>
 
 
-* add medicalInvoke.js
+* **add medicalInvoke.js**
 ```bash
 nano javascript/medicalInvoke.js
 ```
@@ -145,7 +136,7 @@ fabcar → MRSSsample<br>
 Car → Person<br>
 CAR → PERSON<br>
 
-* RUN
+### RUN
 ```bash
 cd javascript
 npm install // git clone 으로 파일들을 가져오면 .gitignore로 인해 node_modules 설치가 안되어있기 때문에 수행
@@ -165,7 +156,6 @@ node queryPerson.js // PERSON의 정보와 medical정보가 출력되는지 확�
 node queryAllPersons.js // 이미 저장된 데이터와 새로 저장한 데이터가 출력되는지 확인
 ```
 
+* * *
 
 ## Test Complete
-
-* * *

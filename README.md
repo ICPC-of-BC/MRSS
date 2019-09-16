@@ -23,11 +23,13 @@
 ![MRSS구조](https://user-images.githubusercontent.com/49246977/64236333-273c7280-cf35-11e9-9fb8-f4c5cc81d94b.png)
 * * *
 
+
 ## Let's follow this test
 
- **>>> 2019.09.06 Start Project: Announce Prologue**  
- **~2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
+ **2019.09.06 Start Project: Announce Prologue**  
+ **2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
  **2019.09.12 Implemented function to Input or Output medical data**  
+
 
 ### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
 ```bash
@@ -81,13 +83,15 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
 }
 ```
 
+
+
+
 ### Edit MRSS_( copy from 'fabcar' to 'MRSSsample' )_
 ```bash
 cd ..
 cp -r fabcar MRSS
 cd MRSS
 ```
-
 
 * **modify startFabric.sh**
 ```bash
@@ -128,6 +132,8 @@ await contract.submitTransaction('createMedical', 'PERSON12', 'O', 'Dimetapp, Al
 fabcar → MRSSsample<br>
 Car → Person<br>
 CAR → PERSON<br>
+
+
 
 ### RUN
 ```bash

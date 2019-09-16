@@ -40,7 +40,7 @@
 #### ~2019.09.11 Modifying 'fabcar' to 'MRSSsample'
 
 
-#### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
+### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
 ```bash
 cd ~/fabric-samples/chaincode/
 cp -r fabcar MRSSsample
@@ -48,26 +48,26 @@ mv fabcar/go/fabcar.go MRSSsample/go/MRSSsample.go
 ```
 
 
-##### modify MRSSsample.go
+* modify MRSSsample.go
 ```bash
 nano MRSS/go/MRSSsample.go
 ```
-* Car → Person
-* car → person
-* Make → Name
-* Model → Number
-* Colour → Sex
-* Owner → DorO
-* add - PM
-* make → name
-* model → number
-* colour → sex
-* owner → doro
-* add - pm
-* CAR → PERSON
+Car → Person<br>
+car → person<br>
+Make → Name<br>
+Model → Number<br>
+Colour → Sex<br>
+Owner → DorO<br>
+add - PM<br>
+make → name<br>
+model → number<br>
+colour → sex<br>
+owner → doro<br>
+add - pm<br>
+CAR → PERSON<br>
 
 
-##### add function & add createMedical
+* add function & add createMedical
 ```go
 func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
         tmpAsBytes, _:= APIstub.GetState(args[0])
@@ -94,7 +94,7 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
 }
 ```
 
-#### Edit MRSS_( copy from 'fabcar' to 'MRSSsample' )_
+### Edit MRSS_( copy from 'fabcar' to 'MRSSsample' )_
 ```bash
 cd ..
 cp -r fabcar MRSS
@@ -102,50 +102,50 @@ cd MRSS
 ```
 
 
-##### modify startFabric.sh
+* modify startFabric.sh
 ```bash
 nano startFabric.sh
 ```
-* 'fabcar' → 'MRSSsample'
+'fabcar' → 'MRSSsample'<br>
 
 
-##### change query.js → queryPerson.js
+* change query.js → queryPerson.js
 ```bash
 nano javascript/queryPerson.js
 ```
-* line 41: const result = await contract.evaluateTransaction('queryPerson', 'PERSON12');
-* fabcar → MRSSsample
-* CAR → PERSON
+line 41: const result = await contract.evaluateTransaction('queryPerson', 'PERSON12');<br>
+fabcar → MRSSsample<br>
+CAR → PERSON<br>
 
 
-##### add queryAllPerson.js
+* add queryAllPerson.js
 ```bash
 nano javascript/queryAllPerson.js
 ```
-* line 41: const result = await contract.evaluateTransaction('queryAllPersons');
-* fabcar → MRSSsample
-* CAR → PERSON
+line 41: const result = await contract.evaluateTransaction('queryAllPersons');<br>
+fabcar → MRSSsample<br>
+CAR → PERSON<br>
 
-##### change invoke.js → personInvoke.js
+* change invoke.js → personInvoke.js
 ```bash
 nano javascript/personInvoke.js
 ```
-* await contract.submitTransaction('createPerson', 'PERSON12', 'AhnJM', '940409', 'M');
-* fabcar → MRSSsample
-* Car → Person
-* CAR → PERSON
+await contract.submitTransaction('createPerson', 'PERSON12', 'AhnJM', '940409', 'M');<br>
+fabcar → MRSSsample<br>
+Car → Person<br>
+CAR → PERSON<br>
 
 
-##### add medicalInvoke.js
+* add medicalInvoke.js
 ```bash
 nano javascript/medicalInvoke.js
 ```
-* await contract.submitTransaction('createMedical', 'PERSON12', 'O', 'Dimetapp, Alllergy, Tavist');
-* fabcar → MRSSsample
-* Car → Person
-* CAR → PERSON
+await contract.submitTransaction('createMedical', 'PERSON12', 'O', 'Dimetapp, Alllergy, Tavist');<br>
+fabcar → MRSSsample<br>
+Car → Person<br>
+CAR → PERSON<br>
 
-**RUN**
+* RUN
 ```bash
 cd javascript
 npm install // git clone 으로 파일들을 가져오면 .gitignore로 인해 node_modules 설치가 안되어있기 때문에 수행

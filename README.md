@@ -145,15 +145,41 @@ cd ..
 cd javascript
 mkdir wallet // git clone 으로 파일들을 가져오면 .gitignore로 인해 wallet 디렉터리가 없기 때문에 생성
 node enrollAdmin.js // admin 계정 생성
+```
+![enrol](https://user-images.githubusercontent.com/49246977/64962469-79d14380-d8d2-11e9-83a6-a5d7b514f93c.PNG)
+```bash
 node registerUser.js // user1 계정 생성
+```
+![register](https://user-images.githubusercontent.com/49246977/64962662-c3ba2980-d8d2-11e9-8361-2af06f30da9b.PNG)
+```bash
 node queryAllPersons.js // 저장된 정보 출력 확인
+```
+![queryAllPerson](https://user-images.githubusercontent.com/49246977/64962562-9f5e4d00-d8d2-11e9-8581-253b7da50056.PNG)
+```bash
 node medicalInvoke.js // Key값이 없을 때 정보저장이 안되는 것 확인
+```
+![medicalInvoke_fail](https://user-images.githubusercontent.com/49246977/64962503-85bd0580-d8d2-11e9-9718-322528e326b6.PNG)
+```bash
 node personInvoke.js // 새로운 데이터 저장
+```
+![personInvoke](https://user-images.githubusercontent.com/49246977/64962543-966d7b80-d8d2-11e9-91f5-5636c284404e.PNG)
+
+```bash
 node queryPerson.js // 저장된 데이터 출력 확인
+```
+![queryPerson_no_medical](https://user-images.githubusercontent.com/49246977/64962654-be5cdf00-d8d2-11e9-86d7-2a3e6196141b.PNG)
+```bash
 node medicalInvoke.js // medical정보 저장되는 것 확인
+```
+![medicalInvoke_success](https://user-images.githubusercontent.com/49246977/64962526-8eadd700-d8d2-11e9-8d65-f49eab060088.PNG)
+```bash
 node queryPerson.js // PERSON의 정보와 medical정보가 출력되는지 확인
+```
+![queryPerson_add_medical](https://user-images.githubusercontent.com/49246977/64962619-b69d3a80-d8d2-11e9-8e57-59c9ba5e077d.PNG)
+```bash
 node queryAllPersons.js // 이미 저장된 데이터와 새로 저장한 데이터가 출력되는지 확인
 ```
+![queryAllPerson_add_PERSON12](https://user-images.githubusercontent.com/49246977/64962587-a8e7b500-d8d2-11e9-88cc-9d06aa924785.PNG)
 
 * * *
 

@@ -27,6 +27,7 @@
 
 ### UI/UX
 
+
 ![MRSS구조](https://user-images.githubusercontent.com/49246977/64236333-273c7280-cf35-11e9-9fb8-f4c5cc81d94b.png)
 
 * * *
@@ -35,68 +36,115 @@
 
 * * *
 
-### ~2019.09.11 Modifying'fabcar'file to 'usermanager'
+### ~2019.09.11 Modifying'fabcar'file to 'MRSSsample'
 
 **Edit Chaincode**
 ```
 cd ~/fabric-samples/chaincode/
-cp -r fabcar usermanager
-mv usermanager/go/fabcar.go usermanager/go/usermanager.go
+cp -r fabcar MRSSsample
+mv fabcar/go/fabcar.go MRSSsample/go/MRSSsample.go
 ```
-> rename **'fabcar'** to **'usermanager'**
+> rename **'fabcar'** to **'MRSSsample'**
 
-**Change usermanager.go**
+**Change MRSSsample.go**
 ```
-nano usermanager/go/usermanager.go
+nano MRSS/go/MRSSsample.go
 ```
 > change inside file's function and variables name
 like this:
 * Car → Person
 * car → person
-* Make → Firstname
-* Model → Lastname
-* Colour → Email
-* Owner → Phone
-* make → firstname
-* model → lastname
-* colour → email
-* owner → phone
+* Make → Name
+* Model → Number
+* Colour → Sex
+* Owner → DorO
+* add - PM
+* make → name
+* model → number
+* colour → sex
+* owner → doro
+* add - pm
 * CAR → PERSON
 
-**Edit usermanager**
+> add function
+**add createMedical**
+
+func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
+        tmpAsBytes, _:= APIstub.GetState(args[0])
+
+        if tmpAsBytes == nil {
+                return shim.Error( "No data" )
+        }
+
+        if len( args ) != 3 {
+                return shim.Error( "Incorrect number of arguments. Expection 3" )
+        }
+
+        personAsBytes, _:= APIstub.GetState( args[0] )
+        person := Person{}
+
+        json.Unmarshal( personAsBytes, &person )
+        person.DorO = args[1]
+        person.PM = args[2]
+
+        personAsBytes, _ = json.Marshal( person )
+        APIstub.PutState( args[0], personAsBytes )
+
+        return shim.Success( nil )
+}
+
+
+**Edit MRSS**
 ```
 cd ..
-cp -r fabcar usermanager
-cd usermanager
+cp -r fabcar MRSS
+cd MRSS
 ```
-> modify file's name (fabcar → usermanager), command: 'cp -r'
+> modify file's name (fabcar → MRSS), command: 'cp -r'
 
 **change startFabric.sh**
 ```
 nano startFabric.sh
 ```
-> change whole word 'fabcar' to 'usermanager'(fabcar → usermanager)
+> change whole word 'fabcar' to 'MRSS'(fabcar → MRSS)
 
-**change query.js**
+**change query.js → queryPerson.js**
 ```
-nano javascript/query.js
+nano javascript/queryPerson.js
 ```
 > changed:
-- line 41: const result = await contract.evaluateTransaction('queryUser', 'USER5'); #remark
-- line 41: const result = await contract.evaluateTransaction('queryAllUsers'); #add
-- fabcar → User
+- line 41: const result = await contract.evaluateTransaction('queryPerson', 'USER5');
+- fabcar → MRSSsample
 - CAR → PERSON
 
-**change invoke.js**
+**add queryAllPerson.js**
 ```
-nano javascript/invoke.js
+nano javascript/queryAllPerson.js
+```
+> changed:
+- line 41: const result = await contract.evaluateTransaction('queryAllPersons');
+- fabcar → MRSSsample
+- CAR → PERSON
+
+**change invoke.js → personInvoke.js**
+```
+nano javascript/personInvoke.js
 ```
 > modified:
-- await contract.submitTransaction('createUser', 'USER5', 'Ahn', 'jongmin', 'ggg@ggg.com', '010-7777-7777'); #code
-- fabcar → usermanager
+- await contract.submitTransaction('createPerson', 'PERSON12', 'AhnJM', '940409', 'M');
+- fabcar → MRSSsample
 - Car → Person
 - CAR → PERSON
-- Owner → Phone
+
+**add medicalInvoke.js**
+```
+nano javascript/medicalInvoke.js
+```
+> modified:
+- await contract.submitTransaction('createMedical', 'PERSON12', 'O', 'Dimetapp, Alllergy, Tavist');
+- fabcar → MRSSsample
+- Car → Person
+- CAR → PERSON
 
 **RUN**
 ```

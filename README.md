@@ -1,119 +1,189 @@
 ## MRSS (Medical Record Sharing Service)
-### **Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발**
+**Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발**
 
-* * *
-
-**1. 팀 소개**
+### 1. 팀 소개
 * 안종민
 * 이상아
 * 이규환
 * 전성원
 * 명진우
 
-**2. 프로젝트 개요**
- - 병원들끼리의 
+### 2. 프로젝트 개요
+ 현재 우리나라의 병원들끼리는 정보공유가 되지 않고있다. 따라서 환자는 병원을 옮길 때마다 자신이 직접 이전 병원에서
+ 수술, 진료 기록을 떼어 옮기려는 병원에 내야 하는 어려움이 있는데 기록을 받으려면 어느정도의 돈도 지불해야한다.
+ 만약 수술, 진료 기록을 해당 병원에 알려주지 않으면 그 병원에서는 이 환자가 어떠한 이력을 가지고 있는지, 어떤 수술을 받았었는지 등을
+ 알 수가 없다. 그로인해 실제 환자가 사망하는 사례도 적지 않으며 병이 악화된 사례는 더욱 많다.
 
-**Contract**
-```
-● 환자 정보 등록 및 요청
-  ○ 이름
-  ○ 주민번호
-  ○ 성별
-● 환자 정보 수정 및 삭제
-● 의료기록 입력
-  ○ 수술기록
-  ○ 진찰기록
-```
+#### Contract
 
-**UI/UX**
+* 환자 정보 입력
+* 환자 정보 수정 및 삭제
+* 의료 기록 입력
+* 선택 환자 정보 출력
+* 전체 환자 정보 출력
 
-
+### UI/UX
 ![MRSS구조](https://user-images.githubusercontent.com/49246977/64236333-273c7280-cf35-11e9-9fb8-f4c5cc81d94b.png)
-
 * * *
 
-## PROGRESS
 
-* * *
+## Let's follow this test
 
-### ~2019.09.11 Modifying 'fabcar'file to 'usermanager'
+ **2019.09.06 Start Project: Announce Prologue**  
+ **2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
+ **2019.09.12 Implemented function to Input or Output medical data**  
 
-**Edit Chaincode**
-```
+
+### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
+```bash
 cd ~/fabric-samples/chaincode/
-cp -r fabcar usermanager
-mv usermanager/go/fabcar.go usermanager/go/usermanager.go
+cp -r fabcar MRSSsample
+mv fabcar/go/fabcar.go MRSSsample/go/MRSSsample.go
 ```
-> rename **'fabcar'** to **'usermanager'**
 
-**Change usermanager.go**
+* **modify MRSSsample.go**
+```bash
+nano MRSS/go/MRSSsample.go
 ```
-nano usermanager/go/usermanager.go
-```
-> change inside file's function and variables name
-like this:
-* Car → Person
-* car → person
-* Make → Firstname
-* Model → Lastname
-* Colour → Email
-* Owner → Phone
-* make → firstname
-* model → lastname
-* colour → email
-* owner → phone
-* CAR → PERSON
+Car → Person<br>
+car → person<br>
+Make → Name<br>
+Model → Number<br>
+Colour → Sex<br>
+Owner → DorO<br>
+make → name<br>
+model → number<br>
+colour → sex<br>
+owner → doro<br>
+CAR → PERSON<br>
+add - pm<br>
+add - PM<br>
 
-**Edit usermanager**
+* **Add function: createMedical**
+```go
+func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
+        tmpAsBytes, _:= APIstub.GetState(args[0])
+
+        if tmpAsBytes == nil {
+                return shim.Error( "No data" )
+        }
+
+        if len( args ) != 3 {
+                return shim.Error( "Incorrect number of arguments. Expection 3" )
+        }
+
+        personAsBytes, _:= APIstub.GetState( args[0] )
+        person := Person{}
+
+        json.Unmarshal( personAsBytes, &person )
+        person.DorO = args[1]
+        person.PM = args[2]
+
+        personAsBytes, _ = json.Marshal( person )
+        APIstub.PutState( args[0], personAsBytes )
+
+        return shim.Success( nil )
+}
 ```
+
+
+
+
+### Edit MRSS_( copy from 'fabcar' to 'MRSSsample' )_
+```bash
 cd ..
-cp -r fabcar usermanager
-cd usermanager
+cp -r fabcar MRSS
+cd MRSS
 ```
-> modify file's name (fabcar → usermanager), command: 'cp -r'
 
-**change startFabric.sh**
-```
+* **modify startFabric.sh**
+```bash
 nano startFabric.sh
 ```
-> change whole word 'fabcar' to 'usermanager'(fabcar → usermanager)
+'fabcar' → 'MRSSsample'<br>
 
-**change query.js**
+* **change query.js → queryPerson.js**
+```bash
+nano javascript/queryPerson.js
 ```
-nano javascript/query.js
-```
-> changed:
-- line 41: const result = await contract.evaluateTransaction('queryUser', 'USER5'); #remark
-- line 41: const result = await contract.evaluateTransaction('queryAllUsers'); #add
-- fabcar → User
-- CAR → PERSON
+line 41: const result = await contract.evaluateTransaction('queryPerson', 'PERSON12');<br>
+fabcar → MRSSsample<br>
+CAR → PERSON<br>
 
-**change invoke.js**
+* **add queryAllPerson.js**
+```bash
+nano javascript/queryAllPerson.js
 ```
-nano javascript/invoke.js
-```
-> modified:
-- await contract.submitTransaction('createUser', 'USER5', 'Ahn', 'jongmin', 'ggg@ggg.com', '010-7777-7777'); #code
-- fabcar → usermanager
-- Car → Person
-- CAR → PERSON
-- Owner → Phone
+line 41: const result = await contract.evaluateTransaction('queryAllPersons');<br>
+fabcar → MRSSsample<br>
+CAR → PERSON<br>
 
-**RUN**
+* **change invoke.js → personInvoke.js**
+```bash
+nano javascript/personInvoke.js
 ```
+await contract.submitTransaction('createPerson', 'PERSON12', 'AhnJM', '940409', 'M');<br>
+fabcar → MRSSsample<br>
+Car → Person<br>
+CAR → PERSON<br>
+
+* **add medicalInvoke.js**
+```bash
+nano javascript/medicalInvoke.js
+```
+await contract.submitTransaction('createMedical', 'PERSON12', 'O', 'Dimetapp, Alllergy, Tavist');<br>
+fabcar → MRSSsample<br>
+Car → Person<br>
+CAR → PERSON<br>
+
+
+
+### RUN
+```bash
 cd javascript
-npm install
+npm install // git clone 으로 파일들을 가져오면 .gitignore로 인해 node_modules 설치가 안되어있기 때문에 수행
 cd ..
 ./startFabcar.sh
 
 cd javascript
-node enrollAdmin.js
-node registerUser.js
-node query.js
-node invoke.js
+mkdir wallet // git clone 으로 파일들을 가져오면 .gitignore로 인해 wallet 디렉터리가 없기 때문에 생성
+node enrollAdmin.js // admin 계정 생성
 ```
-> **!!!CAUTION!!!**
-You Must Follow This Order
+![enrol](https://user-images.githubusercontent.com/49246977/64962469-79d14380-d8d2-11e9-83a6-a5d7b514f93c.PNG)
+```bash
+node registerUser.js // user1 계정 생성
+```
+![register](https://user-images.githubusercontent.com/49246977/64962662-c3ba2980-d8d2-11e9-8361-2af06f30da9b.PNG)
+```bash
+node queryAllPersons.js // 저장된 정보 출력 확인
+```
+![queryAllPerson](https://user-images.githubusercontent.com/49246977/64962562-9f5e4d00-d8d2-11e9-8581-253b7da50056.PNG)
+```bash
+node medicalInvoke.js // Key값이 없을 때 정보저장이 안되는 것 확인
+```
+![medicalInvoke_fail](https://user-images.githubusercontent.com/49246977/64962503-85bd0580-d8d2-11e9-9718-322528e326b6.PNG)
+```bash
+node personInvoke.js // 새로운 데이터 저장
+```
+![personInvoke](https://user-images.githubusercontent.com/49246977/64962543-966d7b80-d8d2-11e9-91f5-5636c284404e.PNG)
+
+```bash
+node queryPerson.js // 저장된 데이터 출력 확인
+```
+![queryPerson_no_medical](https://user-images.githubusercontent.com/49246977/64962654-be5cdf00-d8d2-11e9-86d7-2a3e6196141b.PNG)
+```bash
+node medicalInvoke.js // medical정보 저장되는 것 확인
+```
+![medicalInvoke_success](https://user-images.githubusercontent.com/49246977/64962526-8eadd700-d8d2-11e9-8d65-f49eab060088.PNG)
+```bash
+node queryPerson.js // PERSON의 정보와 medical정보가 출력되는지 확인
+```
+![queryPerson_add_medical](https://user-images.githubusercontent.com/49246977/64962619-b69d3a80-d8d2-11e9-8e57-59c9ba5e077d.PNG)
+```bash
+node queryAllPersons.js // 이미 저장된 데이터와 새로 저장한 데이터가 출력되는지 확인
+```
+![queryAllPerson_add_PERSON12](https://user-images.githubusercontent.com/49246977/64962587-a8e7b500-d8d2-11e9-88cc-9d06aa924785.PNG)
 
 * * *
 
+## Test Complete!!!

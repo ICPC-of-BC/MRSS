@@ -223,26 +223,27 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
                 return shim.Error( "Incorrect number of arguments. Expection 3" )
         }
 
-        var person = Person{ DorO: args[1], PM: args[2] }
 
-        personAsBytes, _ := json.Marshal( person )
-        APIstub.PutState(args[0], personAsBytes)
+//        var person = Person{ DorO: args[1], PM: args[2] }
 
-        return shim.Success(nil)
-}
+//        personAsBytes, _ := json.Marshal( person )
+//        APIstub.PutState(args[0], personAsBytes)
 
-//      personAsBytes, _:= APIstub.GetState( args[0] )
-//      person := Person{}
-
-//      json.Unmarshal( personAsBytes, &person )
-//      person.DorO = args[1]
-//      person.PM = args[2]
-
-//      personAsBytes, _ = json.Marshal( person )
-//      APIstub.PutState( args[0], personAsBytes )
-
-//      return shim.Success( nil )
+//        return shim.Success(nil)
 //}
+
+      personAsBytes, _:= APIstub.GetState( args[0] )
+      person := Person{}
+
+      json.Unmarshal( personAsBytes, &person )
+      person.DorO = args[1]
+      person.PM = args[2]
+
+      personAsBytes, _ = json.Marshal( person )
+      APIstub.PutState( args[0], personAsBytes )
+
+      return shim.Success( nil )
+}
 
 
 // The main function is only relevant in unit test mode. Only included here for completeness.

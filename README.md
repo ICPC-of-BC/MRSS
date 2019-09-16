@@ -1,8 +1,6 @@
 ## MRSS (Medical Record Sharing Service)
 **Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발**
 
-* * *
-
 ### 1. 팀 소개
 * 안종민
 * 이상아
@@ -29,9 +27,9 @@
 
 * * *
 
- **>>> 2019.09.06 Start Project: Announce Prologue**
- **~2019.09.11 Modifying 'fabcar' to 'MRSSsample'**
- **2019.09.12 Implemented function to Input or Output medical data**
+ **>>> 2019.09.06 Start Project: Announce Prologue**  
+ **~2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
+ **2019.09.12 Implemented function to Input or Output medical data**  
 
 ### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
 ```bash
@@ -159,4 +157,4 @@ node queryAllPersons.js // 이미 저장된 데이터와 새로 저장한 데이
 
 * * *
 
-## Test Complete
+## Test Complete!!!

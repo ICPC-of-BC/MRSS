@@ -29,9 +29,9 @@
 
 * * *
 
- **>>> 2019.09.06 Start Project: Announce Prologue
- ~2019.09.11 Modifying 'fabcar' to 'MRSSsample'
- 2019.09.12 Implemented function to Input or Output medical data**
+ **>>> 2019.09.06 Start Project: Announce Prologue**
+ **~2019.09.11 Modifying 'fabcar' to 'MRSSsample'**
+ **2019.09.12 Implemented function to Input or Output medical data**
 
 ### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
 ```bash

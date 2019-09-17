@@ -183,10 +183,23 @@ node queryPerson.js // PERSON의 정보와 medical정보가 출력되는지 확�
 node queryAllPersons.js // 이미 저장된 데이터와 새로 저장한 데이터가 출력되는지 확인
 ```
 ![queryAllPerson_add_PERSON12](https://user-images.githubusercontent.com/49246977/64962587-a8e7b500-d8d2-11e9-88cc-9d06aa924785.PNG)
+```bash
+node delPerson.js // 새로 저장된 데이터 지우기
+```
+![delPerson](https://user-images.githubusercontent.com/49246977/65012546-aa58c200-d952-11e9-806a-6522740da804.PNG)
+```bash
+node queryPerson.js // 데이터 삭제됐는지 확인
+```
+![queryPerson_del_PERSON12](https://user-images.githubusercontent.com/49246977/65012557-b6dd1a80-d952-11e9-879a-7f70a6163e4f.PNG)
+```bash
+node queryAllPersons.js // 전체 데이터에서 삭제 됐는지 확인
+```
+![queryAllPerson_del_PERSON12](https://user-images.githubusercontent.com/49246977/65012567-c3617300-d952-11e9-98bf-81b5826bdfdf.PNG)
+
+## Test Complete!!!
 
 * * *
 
-## Test Complete!!! & Future Plans
-
+## After Plans
 본래에 병원 데이터를 관리하고 있는 데이터관리업체와 협업하여 org로 등록할 병원의 수를 늘리고 현직에 종사하는 병원관계자와 피드백을 받아서 편리성을 증진할 시스템을 구축 및 의료기관간의 정보 공유를 확장할 것을 목표로 하고 있다.  
 

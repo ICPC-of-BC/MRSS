@@ -1,40 +1,43 @@
-## MRSS (Medical Record Sharing Service)
-**Hyperledger Fabric을 이용한 의료기록 공유 시스템 개발**
+## MRSS( Medical Record Sharing Service )
+**Hyperledger Fabric을 이용한 의료기록 공유 시스템**
 
-### 1. 팀 소개
+### 팀 소개
 * 안종민
 * 이상아
 * 이규환
 * 전성원
 * 명진우
 
-### 2. 프로젝트 개요
+
+### 프로젝트 개요
  현재 우리나라의 병원들끼리는 정보공유가 되지 않고있다. 따라서 환자는 병원을 옮길 때마다 자신이 직접 이전 병원에서
  수술, 진료 기록을 떼어 옮기려는 병원에 내야 하는 어려움이 있는데 기록을 받으려면 어느정도의 돈도 지불해야한다.
  만약 수술, 진료 기록을 해당 병원에 알려주지 않으면 그 병원에서는 이 환자가 어떠한 이력을 가지고 있는지, 어떤 수술을 받았었는지 등을
  알 수가 없다. 그로인해 실제 환자가 사망하는 사례도 적지 않으며 병이 악화된 사례는 더욱 많다.
 
-#### Contract
 
+### Contract
 * 환자 정보 입력
 * 환자 정보 수정 및 삭제
 * 의료 기록 입력
 * 선택 환자 정보 출력
 * 전체 환자 정보 출력
 
+
 ### UI/UX
-![MRSS구조](https://user-images.githubusercontent.com/49246977/64236333-273c7280-cf35-11e9-9fb8-f4c5cc81d94b.png)
+![그림01](https://user-images.githubusercontent.com/49246977/65002812-779dd200-d930-11e9-9a25-ff8e6e071313.png)
+
+
 * * *
 
 
-## Let's follow this test
-
+## Let's follow this test !!
  **2019.09.06 Start Project: Announce Prologue**  
  **2019.09.11 Modifying 'fabcar' to 'MRSSsample'**  
  **2019.09.12 Implemented function to Input or Output medical data**  
 
 
-### Edit Chaincode_( copy from 'fabcar' to 'MRSSsample' in chaincode )_
+### 1. Edit Chaincode( copy from 'fabcar' to 'MRSSsample' in chaincode )
 ```bash
 cd ~/fabric-samples/chaincode/
 cp -r fabcar MRSSsample
@@ -87,9 +90,7 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
 ```
 
 
-
-
-### Edit MRSS_( copy from 'fabcar' to 'MRSSsample' )_
+### 2. Edit MRSS( copy from 'fabcar' to 'MRSSsample' )
 ```bash
 cd ..
 cp -r fabcar MRSS
@@ -137,8 +138,7 @@ Car → Person<br>
 CAR → PERSON<br>
 
 
-
-### RUN
+### 3. RUN
 ```bash
 cd javascript
 npm install // git clone 으로 파일들을 가져오면 .gitignore로 인해 node_modules 설치가 안되어있기 때문에 수행

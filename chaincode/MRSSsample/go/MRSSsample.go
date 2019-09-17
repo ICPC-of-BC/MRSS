@@ -85,6 +85,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 //		return s.changePersonOwner(APIstub, args)
 	} else if function == "createMedical" {
 		return s.createMedical(APIstub, args)
+	} else if function == "delPerson" {
+		return s.delPerson( APIstub, args )
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -213,9 +215,9 @@ func (s *SmartContract) changePersonOwner(APIstub shim.ChaincodeStubInterface, a
 */
 
 func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
-	tmpAsBytes, _:= APIstub.GetState(args[0])
+	personAsBytes, _:= APIstub.GetState( args[0] )
 
-	if tmpAsBytes == nil {
+	if personAsBytes == nil {
 		return shim.Error( "No data" )
 	}
 
@@ -223,27 +225,43 @@ func (s *SmartContract) createMedical( APIstub shim.ChaincodeStubInterface, args
 		return shim.Error( "Incorrect number of arguments. Expection 3" )
 	}
 
-	var person = Person{ DorO: args[1], PM: args[2] }
+	person := Person{}
 
-        personAsBytes, _ := json.Marshal( person )
-        APIstub.PutState(args[0], personAsBytes)
+	json.Unmarshal( personAsBytes, &person )
+	person.DorO = args[1]
+	person.PM = args[2]
 
-        return shim.Success(nil)
+	personAsBytes, _ = json.Marshal( person )
+	APIstub.PutState( args[0], personAsBytes )
+
+	return shim.Success( nil )
 }
 
-//	personAsBytes, _:= APIstub.GetState( args[0] )
-//	person := Person{}
+func (s *SmartContract) delPerson( APIstub shim.ChaincodeStubInterface, args []string ) sc.Response {
+	personAsBytes, _:= APIstub.GetState( args[0] )
 
-//	json.Unmarshal( personAsBytes, &person )
-//	person.DorO = args[1]
-//	person.PM = args[2]
+	if personAsBytes == nil {
+		return shim.Error( "no Person" )
+	}
 
-//	personAsBytes, _ = json.Marshal( person )
-//	APIstub.PutState( args[0], personAsBytes )
+        if len( args ) != 1 {
+                return shim.Error( "Incorrect number of arguments. Expection 1" )
+        }
 
-//	return shim.Success( nil )
-//}
+	person := Person{}
 
+	json.Unmarshal( personAsBytes, &person )
+	person.Name = ""
+	person.Number = ""
+	person.Sex = ""
+	person.DorO = ""
+	person.PM = ""
+
+        personAsBytes, _ = json.Marshal( person )
+        APIstub.PutState( args[0], personAsBytes )
+
+        return shim.Success( nil )
+}
 
 // The main function is only relevant in unit test mode. Only included here for completeness.
 func main() {

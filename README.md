@@ -24,6 +24,13 @@
 * 전체 환자 정보 출력
 
 
+### 사용하는 util
+* docker v17.06.2 이상
+* npm 6.12.0
+* python 2.7.x
+* node v12.13.0
+
+
 ### UI/UX
 ![그림01](https://user-images.githubusercontent.com/49246977/65002812-779dd200-d930-11e9-9a25-ff8e6e071313.png)
 

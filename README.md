@@ -140,13 +140,19 @@ CAR → PERSON<br>
 
 ### 3. RUN
 ```bash
+git clone https://github.com/ICPC-of-BC/MRSS.git
+cd MRSS
+
+curl -sSL https://goo.gl/6wtTN5 | bash -s // 현재 이미지가 없는 셋팅이기 때문에 docker image 들을 다운받아야 한다.
+
+cd MRSS
 cd javascript
 npm install // git clone 으로 파일들을 가져오면 .gitignore로 인해 node_modules 설치가 안되어있기 때문에 수행
 cd ..
 ./startFabcar.sh
 
 cd javascript
-mkdir wallet // git clone 으로 파일들을 가져오면 .gitignore로 인해 wallet 디렉터리가 없기 때문에 생성
+mkdir wallet // git clone 으로 파일들을 가져오면 wallet디렉터리 안에 데이터가 있을 수 있는데 모두 지워 빈 상태에서 실습을 진행해야한다.
 node enrollAdmin.js // admin 계정 생성
 ```
 ![enrol](https://user-images.githubusercontent.com/49246977/64962469-79d14380-d8d2-11e9-83a6-a5d7b514f93c.PNG)
